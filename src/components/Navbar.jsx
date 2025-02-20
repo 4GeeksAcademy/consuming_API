@@ -42,8 +42,8 @@ export const Navbar = () => {
 					{/* Enlaces de navegación */}
 					<ul className="navbar-nav ms-auto mb-2 mb-lg-0">
 						<li className="nav-item">
-							<Link to="/demo" className="nav-link">
-								Demo
+							<Link to="/login" className="nav-link">
+								Login User
 							</Link>
 						</li>
 						{/* Puedes agregar más enlaces aquí */}

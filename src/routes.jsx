@@ -8,7 +8,8 @@ import {
 
 import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
-import { Login } from "./pages/login.jsx";
+import { InicioSesion } from "./pages/login.jsx";
+
 
 
 export const router = createBrowserRouter(
@@ -24,7 +25,7 @@ export const router = createBrowserRouter(
 
         {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
         <Route path= "/" element={<Home />} />
-        <Route path= "/login" element={<Login/>} />
+        <Route path= "/login" element={<InicioSesion/>} />
       </Route>
     )
 );

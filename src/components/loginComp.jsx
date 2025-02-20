@@ -1,7 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import factus from "../assets/img/factus.jpg";
+import { useNavigate } from "react-router-dom";
+import useGlobalReducer from "../hooks/useGlobalReducer";
+import { login } from "../store.js"
+
+
 
 export const LoginIn = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const { store, dispatch} =useGlobalReducer();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    setLoading(true);
+    try {
+      // Despachar la acción de login
+      await dispatch(login(username, password));
+      navigate("/"); 
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error);
+    } finally {
+      setLoading(false);
+    }
+      };
 
     return (
         <>
@@ -9,26 +33,27 @@ export const LoginIn = () => {
                 <div className="card p-4" style={{ width: '100%', maxWidth: '400px' }}>
                     <div className="text-center mb-4">
                         <img
-                            className="mx-auto h-10 w-auto" 
+                            className="mx-auto h-10 w-auto"
                             height={150}
                             src={factus}
                         />
                         <h2 className="mt-3">Sign in</h2>
                     </div>
 
-                    <form action="#" method="POST" className="space-y-4">
+                    <form className="form-control" onSubmit={handleSubmit}>
                         <div>
-                            <label htmlFor="email" className="form-label">
-                                Email address
+                            <label htmlFor="text" className="form-label">
+                                Email
                             </label>
                             <div className="mt-2">
                                 <input
-                                    id="email"
                                     name="email"
-                                    type="email"
+                                    placeholder="Email"
+                                    type="text"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
                                     required
-                                    autoComplete="email"
-                                    className="form-control"
+                                    className="form-control mb-3"
                                 />
                             </div>
                         </div>
@@ -46,12 +71,13 @@ export const LoginIn = () => {
                             </div>
                             <div className="mt-2 pb-3">
                                 <input
-                                    id="password"
                                     name="password"
+                                    placeholder="Password"
                                     type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="form-control mb-3"
                                     required
-                                    autoComplete="current-password"
-                                    className="form-control"
                                 />
                             </div>
                         </div>
@@ -69,12 +95,11 @@ export const LoginIn = () => {
                     <p className="mt-3 text-center">
                         Not a member?{' '}
                         <a href="#" className="text-decoration-none">
-                            Start a 14 day free trial
+                           
                         </a>
                     </p>
                 </div>
             </div>
-
         </>
-    )
-}
+    );
+};
