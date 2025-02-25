@@ -3,6 +3,7 @@ export const initialStore = () => {
     users: [],
     authToken: null,
     refreshToken: null,
+    tax : [],
   }
 }
 
@@ -55,4 +56,24 @@ export default function storeReducer(store, action = {},) {
     }
   };
 
+export const viewTax = async () =>{
+ try {
+  const response = await fetch(import.meta.env.VITE_API_URL +"/v1/bills?filter[identification]&filter[names]&filter[number]&filter[prefix]&filter[reference_code]&filter[status]", {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept' :'application/json',
+      'Authorization': `Bearer ${authToken}`
+    }});
+    if (!response.ok) {
+      throw new Error('No se pudo obtener el token');
+  }
+  const data = await response.json();
+  console.log("data", data.tax);
+  
+ } catch (error) {
+  console.error("error Data")
+  throw error;
+ }
+}
 
