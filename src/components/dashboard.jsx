@@ -11,8 +11,6 @@ export const Dashboard = () => {
     switch (currentView) {
       case "facturas":
         return <VerFacturas/>;
-      // case "crearFactura":
-      //   return <CrearFactura />;
       default:
         return (
           <div className="d-flex justify-content-center align-items-center mt-5">

@@ -4,9 +4,10 @@ export const initialStore = () => {
     authToken: null,
     refreshToken: null,
     tax: [],
+    oneTax: null,
   }
 }
-
+// -------------------------------------------------------------------- //
 export default function storeReducer(store, action = {},) {
   switch (action.type) {
     case 'LOGIN_SUCCESS':
@@ -26,6 +27,9 @@ export default function storeReducer(store, action = {},) {
       return store;
   }
 }
+// -------------------------------------------------------------------- //
+// login con la API 
+// -------------------------------------------------------------------- //
 export const login = async (username, password) => {
   try {
     const response = await fetch(import.meta.env.VITE_API_URL + '/oauth/token', {
@@ -55,7 +59,9 @@ export const login = async (username, password) => {
     throw error;
   }
 };
-
+// -------------------------------------------------------------------- //
+//vista de las facturas total
+// -------------------------------------------------------------------- //
 export const viewTax = async () => {
   try {
     const authToken = sessionStorage.getItem('authToken');
@@ -66,8 +72,8 @@ export const viewTax = async () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
         'Authorization': `Bearer ${authToken}`,
+        'Accept': 'application/json',
       }
     });
     if (!response.ok) {
@@ -82,4 +88,62 @@ export const viewTax = async () => {
     throw error;
   }
 };
+// -------------------------------------------------------------------- //
+// vista de una factura
+// -------------------------------------------------------------------- //
+export const viewOneTax = async (number) =>{
+   try {
+     const authToken = sessionStorage.getItem('authToken');
+     if (!authToken) {
+       throw new Error('No hay token de autenticación');
+    }
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/v1/bills/show/${number}`, {
+      method: 'GET',
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Bearer ${authToken}`,
+         'Accept': 'application/json',
+       }
+     });
+     if (!response.ok) {
+       throw new Error('No se pudo obtener la vista de una factura');
+     }
+     const data = await response.json();
+     const oneTax = data || [];
+     console.log("view one tax",data);
+     
+     return oneTax;
+   } catch (error) {
+     console.error("Error al obtener los datos de una factura:", error);
+     throw error;
+     }
+ }
 
+ // -------------------------------------------------------------------- //
+ // descarga PDF 
+ // -------------------------------------------------------------------- //
+ 
+//  export const downloadPDF = async (number) =>{
+//   try {
+//     const authToken = sessionStorage.getItem('authToken');
+//     if (!authToken) {
+//       throw new Error('No hay token de autenticación');
+//    }
+//    const response = fetch(`${import.meta.env.VITE_API_URL}v1/bills/download-pdf/${number}`, {
+//      method: 'GET',
+//      headers: {
+//         'Content-Type': 'application/json',
+//         'Authorization': `Bearer ${authToken}`,
+//         'Accept': 'application/json',
+//       }
+//     });
+//     if (!response.ok) {
+//       throw new Error('No se pudo descargar la factura');
+//     }
+//     const data = response.json();
+//     console.log(data);
+  
+//   } catch (error) {
+//     throw error;
+//   }
+//  }

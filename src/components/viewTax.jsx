@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import { viewTax } from "../store";
+import {viewTax } from "../store";
+import { useNavigate } from "react-router-dom";
+
 
 export const VerFacturas = () => {
   const [loading, setLoading] = useState(false); 
   const [taxData, setTaxData] = useState([]); 
+  const navigate = useNavigate();
+
 
   const handleViewTax = async () => {
     setLoading(true); 
@@ -15,12 +19,19 @@ export const VerFacturas = () => {
       console.error("Error al obtener los datos de impuestos:", error);
     } finally {
       setLoading(false); 
+      
     }
   };
 
+  const handleOnetax = (number) =>{
+    navigate(`/factura/${number}`);
+  };
+  
+  
+
   return (
     <div style={{ padding: "20px" }}>
-      <h1>Ver Datos de Impuestos</h1>
+      <h1>Ver Total de facturas</h1>
       <button onClick={handleViewTax} disabled={loading} style={{ marginBottom: "20px" }}>
         {loading ? "Cargando..." : "Ver Datos"}
       </button>
@@ -33,6 +44,7 @@ export const VerFacturas = () => {
               <th style={{ padding: "10px", border: "1px solid #ddd" }}>Número</th>
               <th style={{ padding: "10px", border: "1px solid #ddd" }}>Estado</th>
               <th style={{ padding: "10px", border: "1px solid #ddd" }}>Total</th>
+              <th style={{ padding: "10px", border: "1px solid #ddd" }}>Ver Factura</th>
             </tr>
           </thead>
           <tbody>
@@ -42,9 +54,11 @@ export const VerFacturas = () => {
                 <td style={{ padding: "10px", border: "1px solid #ddd" }}>{tax.number}</td>
                 <td style={{ padding: "10px", border: "1px solid #ddd" }}>{tax.status}</td>
                 <td style={{ padding: "10px", border: "1px solid #ddd" }}>{tax.total}</td>
+                <td style={{ padding: "10px", border: "1px solid #ddd" }}> <button onClick={() => handleOnetax(tax.number)}> ver factura </button></td>
               </tr>
             ))}
           </tbody>
+          
         </table>
       ) : (
         <p>No hay datos de impuestos disponibles.</p>

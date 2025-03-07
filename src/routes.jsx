@@ -9,6 +9,7 @@ import {
 import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
 import { InicioSesion } from "./pages/login.jsx";
+import { Factura } from "./pages/factura.jsx";
 
 
 
@@ -25,7 +26,8 @@ export const router = createBrowserRouter(
 
         {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
         <Route path= "/" element={<Home />} />
-        <Route path= "/login" element={<InicioSesion/>} />
+        <Route path= "/login" element={<InicioSesion />} />
+        <Route path= "/factura/:number" element={<Factura />} /> 
       </Route>
     )
 );
